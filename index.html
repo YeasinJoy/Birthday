@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday, My Love! 💖</title>
+  
+  <!-- Romantic & Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,700;1,400;1,600&display=swap" rel="stylesheet">
+  
+  <!-- Confetti library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Floating Particles Canvas (Hearts & Sparkles) -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- 🎵 Ambient Audio Player & Music Toggle -->
+  <div class="music-controller" id="musicController">
+    <button class="music-btn" id="musicToggle" aria-label="Toggle Background Music">
+      <span class="music-icon" id="musicIcon">🎵</span>
+      <div class="music-waves" id="musicWaves">
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <span class="music-label" id="musicLabel">Play Music</span>
+    </button>
+    <audio id="bgMusic" loop preload="auto"></audio>
+  </div>
+
+  <!-- ✉️ INTIMATE WAX-SEAL ENVELOPE (Opening Surprise) -->
+  <div class="intro-overlay" id="introOverlay">
+    <div class="envelope-wrapper">
+      <div class="envelope" id="envelopeCard">
+        <div class="envelope-flap"></div>
+        <div class="envelope-pocket"></div>
+        <div class="envelope-letter">
+          <div class="letter-preview">
+            <span class="letter-stamp">🕯️</span>
+            <p class="letter-teaser" id="introBadge">A Quiet Moment</p>
+            <h2 class="letter-title" id="introTitle">A Birthday Keepsake</h2>
+          </div>
+        </div>
+        <div class="wax-seal" id="waxSealBtn">
+          <span>✦</span>
+        </div>
+      </div>
+      <p class="envelope-hint" id="introSubtitle">Click the wax seal to unlock your keepsake ✨</p>
+      <button class="primary-btn open-surprise-btn" id="openSurpriseBtn">
+        <span id="introBtnText">Open Keepsake ✉️</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 🌟 MAIN CONTENT CONTAINER -->
+  <div class="main-content" id="mainContent">
+
+    <!-- HERO SECTION -->
+    <header class="hero-section">
+      <div class="hero-badge">
+        <span class="sparkle">✦</span>
+        <span id="heroBadgeText">A Day Dedicated To You</span>
+        <span class="sparkle">✦</span>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="title-sub" id="heroGreeting">Happy Birthday,</span>
+        <span class="title-main gradient-text" id="recipientName">My Love</span>
+      </h1>
+
+      <p class="hero-subtitle" id="heroQuote">
+        In a noisy world, your presence is quiet comfort and genuine warmth.
+      </p>
+
+      <!-- Live Counter: Days Together / Knowing Each Other -->
+      <div class="counter-card" id="loveCounterCard">
+        <div class="counter-header">
+          <span class="heart-pulse">🕯️</span>
+          <span id="counterLabel">Cherishing memories for</span>
+        </div>
+        <div class="counter-grid">
+          <div class="counter-unit">
+            <span class="counter-number" id="countDays">0</span>
+            <span class="counter-tag">Days</span>
+          </div>
+          <div class="counter-unit">
+            <span class="counter-number" id="countHours">0</span>
+            <span class="counter-tag">Hours</span>
+          </div>
+          <div class="counter-unit">
+            <span class="counter-number" id="countMinutes">0</span>
+            <span class="counter-tag">Mins</span>
+          </div>
+          <div class="counter-unit">
+            <span class="counter-number" id="countSeconds">0</span>
+            <span class="counter-tag">Secs</span>
+          </div>
+        </div>
+        <div class="counter-footer" id="counterFooterText">...and grateful for every single moment ✨</div>
+      </div>
+
+      <a href="#cakeSection" class="scroll-indicator">
+        <span id="scrollHint">Explore your keepsake</span>
+        <div class="chevron-down"></div>
+      </a>
+    </header>
+
+    <!-- 🎂 INTERACTIVE BIRTHDAY CAKE SECTION -->
+    <section class="section cake-section" id="cakeSection">
+      <div class="section-header">
+        <span class="section-tag">Make A Wish</span>
+        <h2 class="section-title" id="cakeTitle">Make a Birthday Wish!</h2>
+        <p class="section-description" id="cakeInstructions">
+          Click or tap the candles to blow them out ✨
+        </p>
+      </div>
+
+      <div class="cake-container">
+        <!-- Interactive 3D/CSS Cake -->
+        <div class="cake-plate">
+          <div class="cake" id="interactiveCake">
+            <!-- Candles Layer -->
+            <div class="candles-wrapper">
+              <div class="candle" data-index="1">
+                <div class="flame"></div>
+                <div class="smoke"></div>
+                <div class="wick"></div>
+              </div>
+              <div class="candle candle-center" data-index="2">
+                <div class="flame"></div>
+                <div class="smoke"></div>
+                <div class="wick"></div>
+              </div>
+              <div class="candle" data-index="3">
+                <div class="flame"></div>
+                <div class="smoke"></div>
+                <div class="wick"></div>
+              </div>
+            </div>
+
+            <!-- Frosting & Cake Tiers -->
+            <div class="cake-tier tier-top">
+              <div class="icing-dripping"></div>
+              <div class="berries">
+                <span>🍓</span><span>🫐</span><span>🍓</span>
+              </div>
+            </div>
+            <div class="cake-tier tier-middle">
+              <div class="cream-fill"></div>
+            </div>
+            <div class="cake-tier tier-bottom">
+              <div class="icing-decorations"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Wish Confirmation Modal/Banner -->
+        <div class="wish-reveal" id="wishReveal">
+          <div class="wish-card">
+            <span class="wish-stars">🌟 ✨ 💫</span>
+            <h3 id="wishGrantedTitle">🎉 Happy Birthday! 🎉</h3>
+            <p id="wishGrantedMsg">May every single wish you made today come true. You deserve the world!</p>
+            <button class="primary-btn replay-cake-btn" id="relightCandlesBtn">Light Candles Again 🕯️</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 🌸 PART 1: MEMORIES OF HER (SOLO MOMENTS) -->
+    <section class="section memories-section" id="memoriesHerSection">
+      <div class="section-header">
+        <span class="section-tag" id="part1Tag">Part 01 • Celebrating Her</span>
+        <h2 class="section-title" id="part1Title">Her Moments ✨</h2>
+        <p class="section-description" id="part1Desc">
+          A celebration of your grace, your genuine smile, and the quiet beauty you bring to every room.
+        </p>
+      </div>
+
+      <div class="polaroid-grid" id="galleryHer">
+        <!-- Injected dynamically from config.js -->
+      </div>
+    </section>
+
+    <!-- ☕ PART 2: MEMORIES OF US (TOGETHER) -->
+    <section class="section memories-section" id="memoriesUsSection">
+      <div class="section-header">
+        <span class="section-tag" id="part2Tag">Part 02 • Moments Together</span>
+        <h2 class="section-title" id="part2Title">Moments Of Us ☕</h2>
+        <p class="section-description" id="part2Desc">
+          The late-night conversations, the quiet laughs, and the chapters we share together.
+        </p>
+      </div>
+
+      <div class="polaroid-grid" id="galleryUs">
+        <!-- Injected dynamically from config.js -->
+      </div>
+    </section>
+
+    <!-- 🕯️ THINGS I DEEPLY APPRECIATE SECTION -->
+    <section class="section reasons-section" id="reasonsSection">
+      <div class="section-header">
+        <span class="section-tag">From The Heart</span>
+        <h2 class="section-title" id="reasonsSectionTitle">Things I Deeply Appreciate About You 🕯️</h2>
+        <p class="section-description">A few reflections on the rare qualities that make you so special. (Tap each card to flip)</p>
+      </div>
+
+      <div class="reasons-grid" id="reasonsGrid">
+        <!-- Injected dynamically from config.js -->
+      </div>
+    </section>
+
+    <!-- ✉️ THE INTIMATE LETTER SECTION -->
+    <section class="section letter-section" id="letterSection">
+      <div class="section-header">
+        <span class="section-tag">From Me To You</span>
+        <h2 class="section-title" id="letterSectionTitle">A Personal Letter ✉️</h2>
+      </div>
+
+      <div class="letter-paper">
+        <div class="letter-pin">✦</div>
+        <div class="letter-body">
+          <div class="letter-greeting" id="letterSalutation">Dearest,</div>
+          <div class="letter-text" id="letterContent">
+            <!-- Injected dynamically from config.js -->
+          </div>
+          <div class="letter-signoff">
+            <div id="letterClosing">With genuine love and respect,</div>
+            <div class="letter-sig" id="letterSignature">Always 🕯️</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 🕯️ INTERACTIVE WARMTH & GOOD WISHES -->
+    <section class="section love-meter-section">
+      <div class="interactive-love-card">
+        <h3>A Quiet Birthday Wish 🕯️</h3>
+        <p>Press the button to send gentle warmth, peace, and appreciation.</p>
+        
+        <button class="love-blast-btn" id="loveBlastBtn">
+          <span class="heart-icon">🕯️</span>
+          <span>Send Warmth & Good Wishes</span>
+        </button>
+
+        <div class="love-meter-bar-container">
+          <div class="love-meter-fill" id="loveMeterFill" style="width: 100%;"></div>
+        </div>
+        <div class="love-status" id="loveStatusText">Warmth & Respect: Infinite ✨</div>
+      </div>
+    </section>
+
+    <!-- 🌸 FOOTER -->
+    <footer class="footer">
+      <p class="footer-note">
+        Crafted with deep care for your birthday ✨
+      </p>
+      <p class="footer-sub">
+        Happy Birthday <span id="footerName">My Love</span> • Today & always.
+      </p>
+    </footer>
+
+  </div>
+
+  <!-- Fullscreen Photo Modal / Lightbox -->
+  <div class="lightbox" id="lightboxModal">
+    <div class="lightbox-backdrop" id="lightboxBackdrop"></div>
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lightboxClose" aria-label="Close Lightbox">&times;</button>
+      <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous Photo">&#10094;</button>
+      <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next Photo">&#10095;</button>
+      <div class="lightbox-img-wrapper">
+        <span class="lightbox-badge" id="lightboxBadge"></span>
+        <img src="" alt="Enlarged Memory" id="lightboxImg">
+      </div>
+      <p class="lightbox-caption" id="lightboxCaption"></p>
+      <div class="lightbox-counter" id="lightboxCounter">1 / 8</div>
+    </div>
+  </div>
+
+  <!-- Load Config & Script -->
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

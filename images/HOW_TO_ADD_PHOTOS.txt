@@ -1,0 +1,31 @@
+==============================================================================
+📸 HOW TO ADD YOUR OWN PHOTOS (PART 1: HER • PART 2: US)
+==============================================================================
+
+Simply copy/paste your photos into this "images" folder!
+
+Suggested filenames:
+  - images/her1.jpg, her2.jpg, her3.jpg  (Solo pictures of her)
+  - images/us1.jpg, us2.jpg, us3.jpg    (Photos of the two of you together)
+
+Next step:
+Open config.js in Notepad or any editor:
+
+1. In "memoriesHer" (Part 1: Her Moments):
+   image: "images/her1.jpg",
+   caption: "Quiet grace and genuine smiles.",
+   tag: "Radiant ✨"
+
+2. In "memoriesUs" (Part 2: Moments Of Us):
+   image: "images/us1.jpg",
+   caption: "One of those evenings you never want to end.",
+   tag: "Memories Together ☕"
+
+💡 REUSING FOR FRIENDS LATER:
+In config.js:
+1. Change recipientName: "Friend's Name"
+2. Change birthdayDate: "Month Day"
+3. Set relationshipType: "friendship"
+4. Put their solo pictures in memoriesHer and shared pictures in memoriesUs!
+Everything else updates automatically.
+==============================================================================
