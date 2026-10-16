@@ -1756,3 +1756,357 @@ button, .polaroid-card, .reason-card, .wax-seal, .envelope, .cake-plate {
   }
 }
 
+/* ==============================================================================
+   📖 STORYBOOK PAGE-BY-PAGE EXPERIENCE STYLES
+   ============================================================================== */
+
+/* Story Top Sticky Header */
+.story-top-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 900;
+  background: rgba(18, 18, 24, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 12px 24px;
+}
+
+.story-header-inner {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 140px; /* Space for the floating music controller */
+}
+
+.story-header-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.story-header-brand strong {
+  color: var(--candle-gold);
+  font-weight: 600;
+}
+
+.story-header-chapter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #f0f0f8;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 4px 14px;
+  border-radius: var(--radius-full);
+}
+
+.chapter-dot-live {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--candle-gold);
+  box-shadow: 0 0 8px var(--candle-gold);
+  animation: pulseGold 2s infinite ease-in-out;
+}
+
+@keyframes pulseGold {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.85); }
+}
+
+/* Storybook Container & Pages */
+.storybook-container {
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 120px);
+}
+
+.story-page {
+  display: none;
+  width: 100%;
+  padding: 30px 20px 120px;
+  max-width: 900px;
+  margin: 0 auto;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.story-page.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+  animation: storyPageIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes storyPageIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.page-inner {
+  width: 100%;
+}
+
+/* Page In-Story Advance Button */
+.page-action-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 44px;
+  margin-bottom: 20px;
+}
+
+.story-advance-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 34px;
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.16) 0%, rgba(212, 175, 55, 0.06) 100%);
+  border: 1px solid var(--candle-gold);
+  color: var(--candle-gold);
+  border-radius: var(--radius-full);
+  font-family: var(--font-primary);
+  font-size: 0.98rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), 0 0 16px rgba(212, 175, 55, 0.15);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.story-advance-btn:hover {
+  background: var(--candle-gold);
+  color: #121216;
+  box-shadow: 0 8px 30px rgba(212, 175, 55, 0.4);
+  transform: translateY(-2px);
+}
+
+.story-advance-btn:active {
+  transform: scale(0.97);
+}
+
+.btn-arrow {
+  font-size: 1.1rem;
+  transition: transform 0.2s ease;
+}
+
+.story-advance-btn:hover .btn-arrow {
+  transform: translateX(4px);
+}
+
+/* Persistent Floating Bottom Navigation Bar */
+.story-nav-bar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 580px;
+  background: rgba(22, 22, 28, 0.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: var(--radius-full);
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 990;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7), 0 0 25px rgba(212, 175, 55, 0.18);
+  transition: transform 0.3s ease;
+}
+
+.story-nav-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e5e5f0;
+  border-radius: var(--radius-full);
+  padding: 8px 18px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  font-family: var(--font-primary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.story-nav-btn:hover:not(:disabled) {
+  background: rgba(212, 175, 55, 0.2);
+  border-color: var(--candle-gold);
+  color: #ffffff;
+}
+
+.story-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.story-nav-btn.btn-next {
+  background: linear-gradient(135deg, var(--candle-gold) 0%, #aa841e 100%);
+  color: #121216;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 2px 14px rgba(212, 175, 55, 0.35);
+}
+
+.story-nav-btn.btn-next:hover {
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.55);
+  transform: translateY(-1px);
+}
+
+.story-indicator-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.story-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.story-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.story-dot:hover {
+  background: rgba(212, 175, 55, 0.6);
+}
+
+.story-dot.active {
+  width: 22px;
+  border-radius: 4px;
+  background: var(--candle-gold);
+  box-shadow: 0 0 10px rgba(212, 175, 55, 0.9);
+}
+
+.story-page-number {
+  font-size: 0.75rem;
+  color: var(--slate-silver);
+  font-weight: 500;
+  letter-spacing: 0.4px;
+}
+
+/* Finale Toast Card on Page 9 */
+.finale-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--candle-gold);
+  border-radius: var(--radius-lg);
+  padding: 38px 24px;
+  max-width: 540px;
+  margin: 36px auto 0;
+  text-align: center;
+  box-shadow: var(--shadow-candle), var(--shadow-md);
+}
+
+.finale-pin {
+  font-size: 1.1rem;
+  color: var(--candle-gold);
+  display: block;
+  margin-bottom: 12px;
+}
+
+.finale-title {
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  color: #ffffff;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.finale-text {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 26px;
+  font-style: italic;
+}
+
+.finale-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.celebration-btn {
+  background: linear-gradient(135deg, var(--candle-gold) 0%, #aa841e 100%);
+  color: #121216;
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 4px 18px rgba(212, 175, 55, 0.35);
+}
+
+/* Mobile Responsiveness for Storybook */
+@media (max-width: 768px) {
+  .story-header-inner {
+    padding-right: 120px;
+  }
+
+  .story-header-brand {
+    font-size: 0.82rem;
+  }
+
+  .story-header-chapter {
+    display: none;
+  }
+
+  .story-page {
+    padding: 20px 14px 110px;
+  }
+
+  .story-nav-bar {
+    bottom: 12px;
+    padding: 7px 10px;
+    width: calc(100% - 20px);
+  }
+
+  .story-nav-btn {
+    padding: 7px 14px;
+    font-size: 0.82rem;
+  }
+
+  .story-dot {
+    width: 5px;
+    height: 5px;
+  }
+
+  .story-dot.active {
+    width: 14px;
+  }
+
+  .story-advance-btn {
+    width: 100%;
+    padding: 13px 20px;
+    font-size: 0.92rem;
+  }
+}
+

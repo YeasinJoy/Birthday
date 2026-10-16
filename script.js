@@ -36,6 +36,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 10. Initialize Lightbox for Memories
   initLightbox();
+
+  // 11. Initialize Storybook Page-by-Page Controller
+  initStorybook();
 });
 
 // ------------------------------------------------------------------------------
@@ -49,8 +52,22 @@ function initContent(cfg) {
   const elRecipientName = document.getElementById('recipientName');
   if (elRecipientName) elRecipientName.textContent = recipientName;
 
+  const elBrandName = document.getElementById('brandRecipientName');
+  if (elBrandName) elBrandName.textContent = recipientName;
+
+  const elFinaleName = document.getElementById('finaleName');
+  if (elFinaleName) elFinaleName.textContent = recipientName;
+
   const elFooterName = document.getElementById('footerName');
   if (elFooterName) elFooterName.textContent = recipientName;
+
+  const finaleBtn = document.getElementById('finaleCelebrateBtn');
+  if (finaleBtn) {
+    finaleBtn.addEventListener('click', () => {
+      fireGrandCelebration();
+      playCelebrationChord();
+    });
+  }
 
   // Dynamically set browser tab title
   document.title = `Happy Birthday, ${recipientName} ✨`;
@@ -652,6 +669,7 @@ function initScratchCard(cfg = {}) {
 
   function resizeCanvas() {
     const rect = container.getBoundingClientRect();
+    if (rect.width === 0 || rect.height === 0) return;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     canvas.width = rect.width * dpr;
     canvas.height = rect.height * dpr;
@@ -659,6 +677,12 @@ function initScratchCard(cfg = {}) {
 
     paintFoil(rect.width, rect.height);
   }
+
+  window.resizeScratchCanvas = function() {
+    if (!isRevealed) {
+      resizeCanvas();
+    }
+  };
 
   function paintFoil(w, h) {
     ctx.save();
@@ -1073,4 +1097,162 @@ function fireGrandCelebration() {
       origin: { x: Math.random() * 0.4 + 0.5, y: Math.random() - 0.2 }
     });
   }, 260);
+}
+
+// ------------------------------------------------------------------------------
+// 11. STORYBOOK PAGE-BY-PAGE CONTROLLER
+// ------------------------------------------------------------------------------
+let currentStoryPage = 1;
+
+function initStorybook() {
+  const pages = document.querySelectorAll('.story-page');
+  const prevBtn = document.getElementById('prevPageBtn');
+  const nextBtn = document.getElementById('nextPageBtn');
+  const pageLabel = document.getElementById('storyPageLabel');
+  const dotsContainer = document.getElementById('storyDots');
+  const topChapterTitle = document.getElementById('topChapterTitle');
+
+  if (!pages || pages.length === 0) return;
+
+  // Dynamically generate 9 chapter progress dots
+  if (dotsContainer) {
+    dotsContainer.innerHTML = '';
+    pages.forEach((p, idx) => {
+      const pageNum = idx + 1;
+      const dot = document.createElement('button');
+      dot.className = `story-dot ${pageNum === 1 ? 'active' : ''}`;
+      dot.setAttribute('aria-label', `Go to Chapter ${pageNum}`);
+      dot.title = p.getAttribute('data-title') || `Chapter ${pageNum}`;
+      dot.addEventListener('click', () => goToPage(pageNum));
+      dotsContainer.appendChild(dot);
+    });
+  }
+
+  function updatePage(pageNum) {
+    if (pageNum < 1) pageNum = 1;
+    if (pageNum > pages.length) pageNum = 1;
+
+    currentStoryPage = pageNum;
+
+    // Toggle active class on pages
+    pages.forEach((page, idx) => {
+      const isCurrent = (idx + 1) === pageNum;
+      if (isCurrent) {
+        page.classList.add('active');
+        // If scratch card chapter, trigger canvas paint
+        if (page.id === 'page-5' && typeof window.resizeScratchCanvas === 'function') {
+          setTimeout(window.resizeScratchCanvas, 60);
+        }
+      } else {
+        page.classList.remove('active');
+      }
+    });
+
+    // Smooth scroll to top of viewport
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Update dots
+    const dots = document.querySelectorAll('.story-dot');
+    dots.forEach((dot, idx) => {
+      dot.classList.toggle('active', (idx + 1) === pageNum);
+    });
+
+    // Update labels
+    const activePageEl = document.getElementById(`page-${pageNum}`);
+    const pageTitle = activePageEl ? activePageEl.getAttribute('data-title') : '';
+
+    if (pageLabel) {
+      pageLabel.textContent = `Chapter ${pageNum} of ${pages.length}`;
+    }
+
+    if (topChapterTitle) {
+      topChapterTitle.textContent = `Chapter 0${pageNum} • ${pageTitle}`;
+    }
+
+    // Update Previous and Next buttons
+    if (prevBtn) {
+      prevBtn.disabled = pageNum === 1;
+    }
+
+    if (nextBtn) {
+      if (pageNum === pages.length) {
+        nextBtn.innerHTML = '<span class="nav-text">Replay ↺</span>';
+      } else {
+        nextBtn.innerHTML = '<span class="nav-text">Next</span> <span>→</span>';
+      }
+    }
+
+    playChime(400 + pageNum * 22, 'sine', 0.35);
+  }
+
+  window.goToPage = (pageNum) => {
+    updatePage(pageNum);
+  };
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      if (currentStoryPage > 1) goToPage(currentStoryPage - 1);
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      if (currentStoryPage === pages.length) {
+        goToPage(1);
+      } else {
+        goToPage(currentStoryPage + 1);
+      }
+    });
+  }
+
+  // Desktop Keyboard Navigation (Arrow Keys)
+  window.addEventListener('keydown', (e) => {
+    const lightbox = document.getElementById('lightboxModal');
+    const openWhenModal = document.getElementById('openWhenModal');
+    if ((lightbox && lightbox.classList.contains('active')) || (openWhenModal && openWhenModal.classList.contains('active'))) {
+      return;
+    }
+    if (e.key === 'ArrowRight') {
+      if (currentStoryPage < pages.length) goToPage(currentStoryPage + 1);
+    } else if (e.key === 'ArrowLeft') {
+      if (currentStoryPage > 1) goToPage(currentStoryPage - 1);
+    }
+  });
+
+  // Mobile Touch Swipe Navigation (Swipe left to advance, swipe right to go back)
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchStartTime = 0;
+
+  document.addEventListener('touchstart', (e) => {
+    if (e.target.closest('#scratchCanvas') || e.target.closest('.lightbox.active') || e.target.closest('.letter-modal.active')) {
+      return;
+    }
+    if (e.touches.length === 1) {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      touchStartTime = Date.now();
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchend', (e) => {
+    if (e.target.closest('#scratchCanvas') || e.target.closest('.lightbox.active') || e.target.closest('.letter-modal.active')) {
+      return;
+    }
+    if (e.changedTouches.length === 1) {
+      const diffX = e.changedTouches[0].clientX - touchStartX;
+      const diffY = e.changedTouches[0].clientY - touchStartY;
+      const duration = Date.now() - touchStartTime;
+
+      if (Math.abs(diffX) > 60 && Math.abs(diffX) > Math.abs(diffY) * 1.4 && duration < 650) {
+        if (diffX < 0) {
+          if (currentStoryPage < pages.length) goToPage(currentStoryPage + 1);
+        } else {
+          if (currentStoryPage > 1) goToPage(currentStoryPage - 1);
+        }
+      }
+    }
+  }, { passive: true });
+
+  updatePage(1);
 }
