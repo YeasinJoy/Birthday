@@ -25,10 +25,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // 6. Initialize Audio Controller
   initAudio(cfg.music);
 
-  // 7. Initialize Interactive Warmth & Appreciation Spawner
-  initWarmthSpawner();
+  // 7. Initialize "Angry Bird" De-Grumpifier & Mood Shifter
+  initMoodCalmer(cfg.moodCalmer, cfg.recipientName, cfg.nickname);
 
-  // 8. Initialize Lightbox for Memories
+  // 8. Initialize Silver Touch Scratch-off Secret Card
+  initScratchCard(cfg.scratchCard);
+
+  // 9. Initialize "Open When..." Keepsake Letters
+  initOpenWhen(cfg.openWhen);
+
+  // 10. Initialize Lightbox for Memories
   initLightbox();
 });
 
@@ -103,6 +109,38 @@ function initContent(cfg) {
     if (cfg.cake.instructions) document.getElementById('cakeInstructions').textContent = cfg.cake.instructions;
     if (cfg.cake.wishGrantedTitle) document.getElementById('wishGrantedTitle').textContent = cfg.cake.wishGrantedTitle;
     if (cfg.cake.wishGrantedMessage) document.getElementById('wishGrantedMsg').textContent = cfg.cake.wishGrantedMessage;
+  }
+
+  // Scratch card texts
+  if (cfg.scratchCard) {
+    if (cfg.scratchCard.badge) {
+      const el = document.getElementById('scratchBadge');
+      if (el) el.textContent = cfg.scratchCard.badge;
+    }
+    if (cfg.scratchCard.title) {
+      const el = document.getElementById('scratchTitle');
+      if (el) el.textContent = cfg.scratchCard.title;
+    }
+    if (cfg.scratchCard.instructions) {
+      const el = document.getElementById('scratchInstructions');
+      if (el) el.textContent = cfg.scratchCard.instructions;
+    }
+    if (cfg.scratchCard.secretText) {
+      const el = document.getElementById('scratchSecretText');
+      if (el) el.textContent = cfg.scratchCard.secretText;
+    }
+  }
+
+  // Mood calmer texts
+  if (cfg.moodCalmer) {
+    if (cfg.moodCalmer.title) {
+      const el = document.getElementById('moodCalmerTitle');
+      if (el) el.textContent = cfg.moodCalmer.title;
+    }
+    if (cfg.moodCalmer.subtitle) {
+      const el = document.getElementById('moodCalmerSubtitle');
+      if (el) el.textContent = cfg.moodCalmer.subtitle;
+    }
   }
 
   // Build Unified Memories & Render Both Sections
@@ -504,70 +542,351 @@ function stopSynthMelody() {
 }
 
 // ------------------------------------------------------------------------------
-// 7. INTERACTIVE WARMTH & GOOD WISHES SPAWNER
+// 7. "ANGRY BIRD" DE-GRUMPIFIER & INTERACTIVE MOOD SHIFTER
 // ------------------------------------------------------------------------------
-function initWarmthSpawner() {
+function initMoodCalmer(cfg = {}, recipientName = "Eity", nickname = "Angry Bird") {
   const btn = document.getElementById('loveBlastBtn');
   const fill = document.getElementById('loveMeterFill');
   const status = document.getElementById('loveStatusText');
-  let count = 0;
+  const btnText = document.getElementById('moodBtnText');
+  let clickCount = 0;
 
-  const messages = [
-    "Warmth & Respect: Infinite ✨",
-    "Wishing you peace and clarity 🕯️",
-    "Grateful for your rare presence 🌟",
-    "May this year bring deep fulfillment 🥂",
-    "Quiet strength and genuine laughter 🌙",
-    "Honoring everything you are ✦"
+  const targetName = nickname || recipientName || "Angry Bird";
+
+  const stages = [
+    {
+      fill: "70%",
+      status: `Deploying hot coffee & warm pastries to appease ${targetName}... 🥐☕`,
+      btn: "Deploy Another Round of Snacks 🍫"
+    },
+    {
+      fill: "85%",
+      status: `Emergency head pats administered. Pout is visibly fading... 🐥✨`,
+      btn: "Cast Peace & Comfort Spell 🕯️"
+    },
+    {
+      fill: "95%",
+      status: `Subtle smile detected! ${targetName} mode disengaged. 🥰`,
+      btn: "Lock in Infinite Birthday Good Vibes 💫"
+    },
+    {
+      fill: "100%",
+      status: `Complete Serenity: 100% loved, radiant, and celebrated! 🕊️💖`,
+      btn: "Celebrate More Smiles! ✨"
+    }
   ];
 
   if (!btn) return;
 
   btn.addEventListener('click', (e) => {
-    count++;
-    playChime(500 + Math.random() * 250, 'sine', 0.5);
+    clickCount++;
+    const stage = stages[(clickCount - 1) % stages.length];
 
-    if (status) {
-      status.textContent = messages[count % messages.length];
-    }
-    if (fill) {
-      fill.style.width = '100%';
-    }
+    playChime(480 + (clickCount % 5) * 55, 'sine', 0.5);
+    setTimeout(() => playChime(640 + (clickCount % 5) * 45, 'sine', 0.6), 110);
+
+    if (status) status.textContent = stage.status;
+    if (fill) fill.style.width = stage.fill;
+    if (btnText) btnText.textContent = stage.btn;
 
     const rect = btn.getBoundingClientRect();
     const x = e.clientX || (rect.left + rect.width / 2);
     const y = e.clientY || (rect.top + rect.height / 2);
 
-    for (let i = 0; i < 6; i++) {
-      createFloatingWarmth(x, y);
+    const icons = ['🥐', '☕', '🕊️', '✨', '🍫', '🕯️', '💖', '🧸', '✦'];
+    for (let i = 0; i < 7; i++) {
+      createFloatingCustomItem(x, y, icons[Math.floor(Math.random() * icons.length)]);
+    }
+
+    if (clickCount % 4 === 0) {
+      fireMetallicConfetti({ particleCount: 35, spread: 50, origin: { y: 0.8 } });
     }
   });
 }
 
-function createFloatingWarmth(x, y) {
-  const ember = document.createElement('div');
-  const symbols = ['🕯️', '✨', '✦', '🌙', '💫', '🌟', '☕'];
-  ember.textContent = symbols[Math.floor(Math.random() * symbols.length)];
-  ember.style.position = 'fixed';
-  ember.style.left = `${x}px`;
-  ember.style.top = `${y}px`;
-  ember.style.fontSize = `${Math.random() * 14 + 18}px`;
-  ember.style.pointerEvents = 'none';
-  ember.style.zIndex = '99999';
-  ember.style.transition = 'all 1.3s cubic-bezier(0.16, 1, 0.3, 1)';
-  document.body.appendChild(ember);
+function createFloatingCustomItem(x, y, symbol) {
+  const item = document.createElement('div');
+  item.textContent = symbol;
+  item.style.position = 'fixed';
+  item.style.left = `${x}px`;
+  item.style.top = `${y}px`;
+  item.style.fontSize = `${Math.random() * 12 + 20}px`;
+  item.style.pointerEvents = 'none';
+  item.style.zIndex = '99999';
+  item.style.transition = 'all 1.4s cubic-bezier(0.16, 1, 0.3, 1)';
+  document.body.appendChild(item);
 
-  const destX = x + (Math.random() - 0.5) * 140;
-  const destY = y - (Math.random() * 160 + 70);
+  const destX = x + (Math.random() - 0.5) * 160;
+  const destY = y - (Math.random() * 180 + 80);
 
   requestAnimationFrame(() => {
-    ember.style.transform = `translate(${destX - x}px, ${destY - y}px) scale(1.3)`;
-    ember.style.opacity = '0';
+    item.style.transform = `translate(${destX - x}px, ${destY - y}px) scale(1.3) rotate(${(Math.random() - 0.5) * 40}deg)`;
+    item.style.opacity = '0';
   });
 
   setTimeout(() => {
-    ember.remove();
-  }, 1400);
+    item.remove();
+  }, 1450);
+}
+
+// ------------------------------------------------------------------------------
+// 8. INTERACTIVE SILVER SCRATCH-OFF CARD
+// ------------------------------------------------------------------------------
+function initScratchCard(cfg = {}) {
+  const container = document.getElementById('scratchContainer');
+  const canvas = document.getElementById('scratchCanvas');
+  const progressText = document.getElementById('scratchProgress');
+  const secretTextEl = document.getElementById('scratchSecretText');
+
+  if (!canvas || !container) return;
+
+  if (cfg && cfg.secretText && secretTextEl) {
+    secretTextEl.textContent = cfg.secretText;
+  }
+
+  const ctx = canvas.getContext('2d');
+  let isScratching = false;
+  let isRevealed = false;
+  let lastX = null;
+  let lastY = null;
+
+  function resizeCanvas() {
+    const rect = container.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
+    ctx.scale(dpr, dpr);
+
+    paintFoil(rect.width, rect.height);
+  }
+
+  function paintFoil(w, h) {
+    ctx.save();
+    ctx.globalCompositeOperation = 'source-over';
+
+    // Charcoal & slate silver metallic gradient
+    const grad = ctx.createLinearGradient(0, 0, w, h);
+    grad.addColorStop(0, '#32323e');
+    grad.addColorStop(0.35, '#4a4a5a');
+    grad.addColorStop(0.7, '#2b2b36');
+    grad.addColorStop(1, '#3a3a48');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, w, h);
+
+    // Subtle metallic stardust flecks
+    ctx.fillStyle = 'rgba(212, 175, 55, 0.22)';
+    for (let i = 0; i < 40; i++) {
+      const sx = (Math.sin(i * 99) * 0.5 + 0.5) * w;
+      const sy = (Math.cos(i * 33) * 0.5 + 0.5) * h;
+      ctx.beginPath();
+      ctx.arc(sx, sy, (i % 3) + 1, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Elegant text banner on foil
+    ctx.font = '600 13px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.fillStyle = 'rgba(212, 175, 55, 0.95)';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('✦ SCRATCH TO REVEAL SECRET ✦', w / 2, h / 2 - 12);
+
+    ctx.font = 'italic 12px "Playfair Display", Georgia, serif';
+    ctx.fillStyle = 'rgba(220, 220, 235, 0.7)';
+    ctx.fillText('(Rub with finger or mouse)', w / 2, h / 2 + 14);
+
+    ctx.restore();
+  }
+
+  function scratch(x, y) {
+    if (isRevealed) return;
+
+    ctx.save();
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath();
+    ctx.arc(x, y, 22, 0, Math.PI * 2);
+    ctx.fill();
+
+    if (lastX !== null && lastY !== null) {
+      ctx.lineWidth = 44;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(x, y);
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    lastX = x;
+    lastY = y;
+  }
+
+  function getCanvasCoords(e) {
+    const rect = canvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    return {
+      x: clientX - rect.left,
+      y: clientY - rect.top
+    };
+  }
+
+  function checkProgress() {
+    if (isRevealed) return;
+    const rect = container.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = Math.floor(rect.width * dpr);
+    const h = Math.floor(rect.height * dpr);
+
+    try {
+      const imgData = ctx.getImageData(0, 0, w, h);
+      const data = imgData.data;
+      let transparentCount = 0;
+      let totalSamples = 0;
+
+      for (let i = 3; i < data.length; i += 4 * 16) {
+        totalSamples++;
+        if (data[i] === 0) {
+          transparentCount++;
+        }
+      }
+
+      const percent = Math.min(100, Math.round((transparentCount / totalSamples) * 100));
+      if (progressText) {
+        progressText.textContent = `Scratch to reveal: ${percent}%`;
+      }
+
+      if (percent >= 40) {
+        revealSecret();
+      }
+    } catch (err) {}
+  }
+
+  function revealSecret() {
+    if (isRevealed) return;
+    isRevealed = true;
+    canvas.classList.add('revealed');
+    if (progressText) {
+      progressText.innerHTML = '✨ <strong style="color: var(--candle-gold)">Secret Revealed!</strong> ✨';
+    }
+    playCelebrationChord();
+    fireMetallicConfetti({
+      particleCount: 50,
+      spread: 70,
+      origin: { y: 0.7 }
+    });
+  }
+
+  // Pointer & Touch Events
+  canvas.addEventListener('pointerdown', (e) => {
+    isScratching = true;
+    const pos = getCanvasCoords(e);
+    lastX = pos.x;
+    lastY = pos.y;
+    scratch(pos.x, pos.y);
+  });
+
+  window.addEventListener('pointermove', (e) => {
+    if (!isScratching) return;
+    const pos = getCanvasCoords(e);
+    scratch(pos.x, pos.y);
+  });
+
+  window.addEventListener('pointerup', () => {
+    if (isScratching) {
+      isScratching = false;
+      lastX = null;
+      lastY = null;
+      checkProgress();
+    }
+  });
+
+  // Dedicated touch listeners for smooth mobile support
+  canvas.addEventListener('touchstart', (e) => {
+    isScratching = true;
+    const pos = getCanvasCoords(e);
+    lastX = pos.x;
+    lastY = pos.y;
+    scratch(pos.x, pos.y);
+  }, { passive: false });
+
+  canvas.addEventListener('touchmove', (e) => {
+    if (!isScratching) return;
+    e.preventDefault();
+    const pos = getCanvasCoords(e);
+    scratch(pos.x, pos.y);
+  }, { passive: false });
+
+  canvas.addEventListener('touchend', () => {
+    if (isScratching) {
+      isScratching = false;
+      lastX = null;
+      lastY = null;
+      checkProgress();
+    }
+  });
+
+  setTimeout(resizeCanvas, 150);
+  window.addEventListener('resize', () => {
+    if (!isRevealed) {
+      resizeCanvas();
+    }
+  });
+}
+
+// ------------------------------------------------------------------------------
+// 9. "OPEN WHEN..." TIME CAPSULE LETTERS
+// ------------------------------------------------------------------------------
+function initOpenWhen(list) {
+  const grid = document.getElementById('openWhenGrid');
+  const modal = document.getElementById('openWhenModal');
+  const backdrop = document.getElementById('openWhenBackdrop');
+  const closeBtn = document.getElementById('openWhenClose');
+
+  const modalIcon = document.getElementById('modalLetterIcon');
+  const modalTag = document.getElementById('modalLetterTag');
+  const modalTitle = document.getElementById('modalLetterTitle');
+  const modalBody = document.getElementById('modalLetterBody');
+
+  if (!grid || !Array.isArray(list) || list.length === 0) return;
+
+  grid.innerHTML = '';
+
+  list.forEach((item) => {
+    const card = document.createElement('div');
+    card.className = 'open-when-card';
+    card.innerHTML = `
+      <span class="open-when-stamp">${item.icon || '✉️'}</span>
+      <span class="open-when-tag">${item.tag || 'Open When'}</span>
+      <h4>${item.label}</h4>
+      <span class="open-when-hint">Tap to unseal ✦</span>
+    `;
+
+    card.addEventListener('click', () => {
+      if (modalIcon) modalIcon.textContent = item.icon || '✉️';
+      if (modalTag) modalTag.textContent = item.tag || 'Special Letter';
+      if (modalTitle) modalTitle.textContent = item.label || 'Open When...';
+      if (modalBody) {
+        modalBody.innerHTML = `<p>${item.letter || ''}</p>`;
+      }
+
+      if (modal) modal.classList.add('active');
+      playChime(520, 'sine', 0.6);
+      setTimeout(() => playChime(660, 'sine', 0.7), 120);
+    });
+
+    grid.appendChild(card);
+  });
+
+  function closeModal() {
+    if (modal) modal.classList.remove('active');
+  }
+
+  if (backdrop) backdrop.addEventListener('click', closeModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
 }
 
 // ------------------------------------------------------------------------------

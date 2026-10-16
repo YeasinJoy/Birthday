@@ -184,7 +184,63 @@ window.BIRTHDAY_CONFIG = {
   },
 
   // ----------------------------------------------------------------------------
-  // 10. BACKGROUND AUDIO
+  // 10. "OPEN WHEN..." INTERACTIVE KEEPSAKE ENVELOPES
+  // 4 sealed letters she can tap to unfold whenever she needs them!
+  // ----------------------------------------------------------------------------
+  openWhen: [
+    {
+      id: "angry-bird",
+      icon: "😤",
+      label: "Open when you're in 'Angry Bird' mode",
+      tag: "Deep Breaths",
+      letter: "Take a deep breath and relax those eyebrows! Whatever made you grumpy right now won't matter soon. Remember: even when you're in full Angry Bird mode, you're still my favorite human being. Go get a snack and smile! 🥐✨"
+    },
+    {
+      id: "doubt",
+      icon: "🕯️",
+      label: "Open when you doubt yourself",
+      tag: "A Reminder",
+      letter: "Just in case you forgot today: you are capable, resilient, and extraordinarily thoughtful. Don't let a temporary rough moment make you forget how much quiet strength and brilliance you hold within you."
+    },
+    {
+      id: "sleep",
+      icon: "🌙",
+      label: "Open when you can't sleep at 2 AM",
+      tag: "Quiet Night",
+      letter: "The world is asleep, and your mind is probably racing. Turn off your screen, close your eyes, and let go of today's thoughts. Tomorrow is a fresh start, and everything is going to be okay. Rest well."
+    },
+    {
+      id: "birthday",
+      icon: "✨",
+      label: "Open on your birthday midnight",
+      tag: "Special Toast",
+      letter: "Happy Birthday, Eity! Here is to another trip around the sun. May this year bring you closer to all your aspirations, surround you with peace, and bring countless reasons to laugh until your stomach hurts! 🥂"
+    }
+  ],
+
+  // ----------------------------------------------------------------------------
+  // 11. INTERACTIVE SILVER SCRATCH-OFF CARD
+  // She rubs her finger on mobile or mouse on desktop to scratch off the coating!
+  // ----------------------------------------------------------------------------
+  scratchCard: {
+    badge: "Interactive Keepsake",
+    title: "A Hidden Secret Message",
+    instructions: "Rub or scratch with your finger to reveal what's underneath ✨",
+    secretText: "Behind every pout, funny eye-roll, or 'Angry Bird' moment is the kindest, most radiant soul. Thank you for being yourself. Happy Birthday, Eity! 🕯️💫"
+  },
+
+  // ----------------------------------------------------------------------------
+  // 12. "ANGRY BIRD" INTERACTIVE SMILE GENERATOR
+  // Playful mood shifter tailored to her nickname!
+  // ----------------------------------------------------------------------------
+  moodCalmer: {
+    enabled: true,
+    title: "The 'Angry Bird' De-Grumpifier 🕊️",
+    subtitle: "Feeling grumpy or overwhelmed? Tap the button to deploy emergency peace."
+  },
+
+  // ----------------------------------------------------------------------------
+  // 13. BACKGROUND AUDIO
   // Built-in cozy ambient lofi guitar/chimes, or drop an MP3 into the folder!
   // ----------------------------------------------------------------------------
   music: {

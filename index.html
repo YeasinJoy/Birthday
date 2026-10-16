@@ -3,7 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Happy Birthday, My Love! 💖</title>
+  <!-- Primary Page Title & Social Media Preview (Instagram, WhatsApp, iMessage) -->
+  <title>Happy Birthday, Eity ✨</title>
+  <meta name="title" content="Happy Birthday, Eity ✨">
+  <meta name="description" content="A special birthday keepsake waiting inside 🕯️">
+
+  <!-- Open Graph / Facebook / Instagram Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Happy Birthday, Eity ✨">
+  <meta property="og:description" content="A special birthday keepsake waiting inside 🕯️">
+  <meta property="og:url" content="https://yeasinjoy.github.io/Birthday/">
+
+  <!-- Twitter Card Preview -->
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Happy Birthday, Eity ✨">
+  <meta name="twitter:description" content="A special birthday keepsake waiting inside 🕯️">
   
   <!-- Romantic & Modern Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -69,7 +83,7 @@
 
       <h1 class="hero-title">
         <span class="title-sub" id="heroGreeting">Happy Birthday,</span>
-        <span class="title-main gradient-text" id="recipientName">My Love</span>
+        <span class="title-main gradient-text" id="recipientName"></span>
       </h1>
 
       <p class="hero-subtitle" id="heroQuote">
@@ -200,6 +214,33 @@
       </div>
     </section>
 
+    <!-- 🪙 INTERACTIVE SILVER SCRATCH-OFF SECRET CARD -->
+    <section class="section scratch-section" id="scratchSection">
+      <div class="section-header">
+        <span class="section-tag" id="scratchBadge">Interactive Keepsake</span>
+        <h2 class="section-title" id="scratchTitle">A Hidden Secret Message 🪙</h2>
+        <p class="section-description" id="scratchInstructions">
+          Rub or scratch with your finger (or mouse) to reveal what's underneath ✨
+        </p>
+      </div>
+
+      <div class="scratch-card-wrapper">
+        <div class="scratch-card-container" id="scratchContainer">
+          <!-- Hidden message underneath -->
+          <div class="scratch-card-secret" id="scratchSecret">
+            <span class="secret-pin">✦</span>
+            <p id="scratchSecretText">
+              Behind every pout, funny eye-roll, or "Angry Bird" moment is the kindest, most radiant soul. Thank you for being yourself. Happy Birthday, Eity! 🕯️💫
+            </p>
+            <span class="secret-revealed-tag">Revealed with love 🕯️</span>
+          </div>
+          <!-- Scratchable Canvas on top -->
+          <canvas class="scratch-canvas" id="scratchCanvas"></canvas>
+        </div>
+        <div class="scratch-progress-text" id="scratchProgress">Scratch to reveal: 0%</div>
+      </div>
+    </section>
+
     <!-- 🕯️ THINGS I DEEPLY APPRECIATE SECTION -->
     <section class="section reasons-section" id="reasonsSection">
       <div class="section-header">
@@ -209,6 +250,21 @@
       </div>
 
       <div class="reasons-grid" id="reasonsGrid">
+        <!-- Injected dynamically from config.js -->
+      </div>
+    </section>
+
+    <!-- ✉️ "OPEN WHEN..." TIME CAPSULE ENVELOPES -->
+    <section class="section open-when-section" id="openWhenSection">
+      <div class="section-header">
+        <span class="section-tag">For Anytime You Need</span>
+        <h2 class="section-title">"Open When..." Letters ✉️</h2>
+        <p class="section-description">
+          Four little envelopes to open whenever the moment calls. Tap any letter to read.
+        </p>
+      </div>
+
+      <div class="open-when-grid" id="openWhenGrid">
         <!-- Injected dynamically from config.js -->
       </div>
     </section>
@@ -235,23 +291,37 @@
       </div>
     </section>
 
-    <!-- 🕯️ INTERACTIVE WARMTH & GOOD WISHES -->
+    <!-- 🕊️ "ANGRY BIRD" DE-GRUMPIFIER & WARMTH GENERATOR -->
     <section class="section love-meter-section">
       <div class="interactive-love-card">
-        <h3>A Quiet Birthday Wish 🕯️</h3>
-        <p>Press the button to send gentle warmth, peace, and appreciation.</p>
+        <span class="interactive-pill-tag">Interactive Mood Shifter</span>
+        <h3 id="moodCalmerTitle">The 'Angry Bird' De-Grumpifier 🕊️</h3>
+        <p id="moodCalmerSubtitle">Feeling grumpy or overwhelmed? Tap the button to deploy emergency peace & smiles.</p>
         
         <button class="love-blast-btn" id="loveBlastBtn">
-          <span class="heart-icon">🕯️</span>
-          <span>Send Warmth & Good Wishes</span>
+          <span class="heart-icon">🥐</span>
+          <span id="moodBtnText">Deploy Emergency Snacks & Peace</span>
         </button>
 
         <div class="love-meter-bar-container">
           <div class="love-meter-fill" id="loveMeterFill" style="width: 100%;"></div>
         </div>
-        <div class="love-status" id="loveStatusText">Warmth & Respect: Infinite ✨</div>
+        <div class="love-status" id="loveStatusText">Status: Calm, radiant, and loved 🥰</div>
       </div>
     </section>
+
+    <!-- Modal for "Open When" Letters -->
+    <div class="letter-modal" id="openWhenModal">
+      <div class="letter-modal-backdrop" id="openWhenBackdrop"></div>
+      <div class="letter-modal-card">
+        <button class="letter-modal-close" id="openWhenClose">&times;</button>
+        <span class="letter-modal-icon" id="modalLetterIcon">✉️</span>
+        <span class="letter-modal-tag" id="modalLetterTag">A Reminder</span>
+        <h3 class="letter-modal-title" id="modalLetterTitle">Open When...</h3>
+        <div class="letter-modal-body" id="modalLetterBody"></div>
+        <div class="letter-modal-footer">Always in your corner 🕯️</div>
+      </div>
+    </div>
 
     <!-- 🌸 FOOTER -->
     <footer class="footer">
@@ -259,7 +329,7 @@
         Crafted with deep care for your birthday ✨
       </p>
       <p class="footer-sub">
-        Happy Birthday <span id="footerName">My Love</span> • Today & always.
+        Happy Birthday <span id="footerName"></span> • Today & always.
       </p>
     </footer>
 
