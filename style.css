@@ -1218,8 +1218,17 @@ body {
 /* ✉️ "OPEN WHEN..." INTERACTIVE ENVELOPES */
 .open-when-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(2, minmax(240px, 1fr));
+  gap: 22px;
+  max-width: 640px;
+  margin: 0 auto 20px;
+}
+
+@media (max-width: 620px) {
+  .open-when-grid {
+    grid-template-columns: 1fr;
+    max-width: 320px;
+  }
 }
 
 .open-when-card {
@@ -1833,7 +1842,7 @@ button, .polaroid-card, .reason-card, .wax-seal, .envelope, .cake-plate {
 .story-page {
   display: none;
   width: 100%;
-  padding: 30px 20px 120px;
+  padding: 30px 20px 140px;
   max-width: 900px;
   margin: 0 auto;
   opacity: 0;
